@@ -17,24 +17,27 @@ var currentPath = __dirname;
  
  var getDirectories = function (src, callback) {
  glob(src + '/**/*', callback);
+ 
+ //
+ //f(foundflag == false)
+	 // console.log('No file found');   
 };
-
+	var foundflag = false;
 
 //invocation
 getDirectories(currentPath, function (err, res) {
-	var foundflag = false;
+
   if (err) {
     console.log('Error', err);
   } else {
 	  var i;
 	  for(i=0; i<res.length; i++)
 	  {    
-		foundflag = false;
-		
 		if(path.extname(res[i]) == fileExtension)
 		{			
 	
-			currentFile = res[i];
+			currentFile = res[i]; 
+			/*
 			fs.readFile(res[i],function (err, data) {
             if (err) {
 				foundflag = false;
@@ -47,14 +50,27 @@ getDirectories(currentPath, function (err, res) {
                 console.log(currentFile);
 				foundflag = true;				
             }
-			
-		});
+			*/
+			var fileData = fs.readFileSync(currentFile);
+            if (fileData.indexOf(tokenToSearch) >= 0) {
+                console.log(currentFile);
+				foundflag = true;				
+            }
+		//});
 						
 		}
 	  }
+
+  if(foundflag == false)
+	  console.log('No file found');	  
   }
   
-  if(foundflag == false)
-	  console.log('No file found');   	
-	        
 });
+
+
+  //if(foundflag == false)
+	//  console.log('No file found');
+  
+
+	
+	        
